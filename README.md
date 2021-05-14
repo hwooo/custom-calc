@@ -18,6 +18,7 @@
 |-----|-----|
 | MainWindow.xaml | UI |
 | MainWindow.xaml.cs | UI 인터랙션 로직 |
+| custom-calc.sln | VS용 프로젝트 파일 |
 
 ## 스크린샷
 

@@ -12,14 +12,15 @@
 * 입력값 삭제 (Backspace)
 * 연산 초기화 (Clear)
 
-## 소스 파일
+## 주요 파일
 
 | 파일명 | 역할 |
 |-----|-----|
-| MainWindow.xaml | UI |
-| MainWindow.xaml.cs | UI 인터랙션 로직 |
-| custom-calc.sln | VS용 프로젝트 파일 |
+| MainWindow.xaml | UI 코드 |
+| MainWindow.xaml.cs | UI 인터랙션 로직 코드 |
+| custom-calc.sln | VS 솔루션 |
 
 ## 스크린샷
 
+![alt text](pics/screenshot_1.png) ![alt text](pics/screenshot_2.png)
 

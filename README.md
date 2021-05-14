@@ -12,6 +12,13 @@
 * 입력값 삭제 (Backspace)
 * 연산 초기화 (Clear)
 
+## 소스 파일
+
+| 파일명 | 역할 |
+|-----|-----|
+| MainWindow.xaml | UI |
+| MainWindow.xaml.cs | UI 인터랙션 로직 |
+
 ## 스크린샷
 
 

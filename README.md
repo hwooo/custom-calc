@@ -23,5 +23,5 @@
 ## 스크린샷
 
 <p align="center">
-<img src="./pics/screenshot_1.png" width="50%"/> <img src="./pics/screenshot_2.png" width="50%"/>
+<img src="./pics/screenshot_1.png" width="45%"/> <img src="./pics/screenshot_2.png" width="45%"/>
 </p>

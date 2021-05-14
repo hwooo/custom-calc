@@ -22,5 +22,5 @@
 
 ## 스크린샷
 
-![alt text](pics/screenshot_1.png) ![alt text](pics/screenshot_2.png)
+![alt text](pics/screenshot_1.png){: width="50%"} ![alt text](pics/screenshot_2.png){: width="50%"}
 

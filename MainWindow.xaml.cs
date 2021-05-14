@@ -60,7 +60,10 @@ namespace custom_calc
 
         // 자릿수 증가를 위한 10 단위의 오프셋(ex. 835 -> 5*1 + 3*10 + 8*100)
         private const int Offset = 10;
-        
+
+        private Stack<char> _operators = new Stack<char>();
+        private Stack<int> _operands = new Stack<int>();
+
         /// <summary>
         /// 연산자 함수
         /// </summary>
@@ -106,7 +109,7 @@ namespace custom_calc
 
             result_label.Content = _tempValue.ToString();
         }
-        
+
         /// <summary>
         /// 숫자 1 버튼 클릭
         /// </summary>
@@ -511,7 +514,7 @@ namespace custom_calc
             _equation += _preValue;
 
             // 마지막에 입력한 것이 연산자라면 _equation 문자열에서 끝의 4개 문자를 지운다.
-            // ex) "9 + 2 * 0" → (지우기 버튼 클릭) → "9 + 2"
+            // ex) "9 + 2 * _" → (지우기 버튼 클릭) → "9 + 2"
             // 마지막에 입력한 것이 피연산자라면 끝의 1개 문자를 지우고, 현재 입력값을 0으로 바꾼다.
             // ex) "9 + 2 * 7" → (지우기 버튼 클릭) → "9 + 2 * "
             if (_isCalcMode)
@@ -557,7 +560,7 @@ namespace custom_calc
 
             // 마지막으로 입력된 값이 있으면 수식에 이어붙인다.
             _equation += _preValue + " = ";
-            
+
             // 마지막 연산을 수행한다.
             Calculation(_calcType, _preValue);
 

@@ -60,7 +60,7 @@ namespace custom_calc
 
         // 자릿수 증가를 위한 10 단위의 오프셋(ex. 835 -> 5*1 + 3*10 + 8*100)
         private const int Offset = 10;
-
+        
         /// <summary>
         /// 연산자 함수
         /// </summary>
@@ -72,19 +72,15 @@ namespace custom_calc
             {
                 case '+':
                     _total += preValue;
-                    _calcType = 'n';
                     break;
                 case '-':
                     _total -= preValue;
-                    _calcType = 'n';
                     break;
                 case '*':
                     _total *= preValue;
-                    _calcType = 'n';
                     break;
                 case '/':
                     _total /= preValue;
-                    _calcType = 'n';
                     break;
             }
         }
@@ -313,7 +309,7 @@ namespace custom_calc
         {
             // 총 연산자 클릭 횟수가 0 이상인데 수식 문자열이 비어 있다면 이전에 '=' 연산을 하고 초기화된 상태이므로,
             // 피연산자 없이 연산 모드를 실행할 수는 없기 때문에 함수를 종료한다.
-            if (_isCalcMode || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
             {
                 return;
             }
@@ -332,8 +328,10 @@ namespace custom_calc
 
             _calcType = '+';
             _tempValue = 0;
+
             ++_opCount;
             ++_allOpCount;
+            ++_totalCount;
 
             // 이전에 지우기 연산을 했을 경우 _preValue를 연결하지 않는다.
             if (_erase)
@@ -356,7 +354,7 @@ namespace custom_calc
 
         private void minus_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
             {
                 return;
             }
@@ -374,8 +372,10 @@ namespace custom_calc
 
             _calcType = '-';
             _tempValue = 0;
+
             ++_opCount;
             ++_allOpCount;
+            ++_totalCount;
 
             if (_erase)
             {
@@ -394,7 +394,7 @@ namespace custom_calc
 
         private void multiply_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
             {
                 return;
             }
@@ -412,8 +412,10 @@ namespace custom_calc
 
             _calcType = '*';
             _tempValue = 0;
+
             ++_opCount;
             ++_allOpCount;
+            ++_totalCount;
 
             if (_erase)
             {
@@ -432,7 +434,7 @@ namespace custom_calc
 
         private void division_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
             {
                 return;
             }
@@ -450,8 +452,10 @@ namespace custom_calc
 
             _calcType = '/';
             _tempValue = 0;
+
             ++_opCount;
             ++_allOpCount;
+            ++_totalCount;
 
             if (_erase)
             {
@@ -479,6 +483,7 @@ namespace custom_calc
 
             _opCount = 0;
             _allOpCount = 0;
+            _totalCount = 0;
             _total = 0;
             _preValue = 0;
             _tempValue = 0;
@@ -493,28 +498,31 @@ namespace custom_calc
         }
 
         /// <summary>
-        /// 지우기 버튼 클릭
+        /// 지우기(←) 버튼 클릭
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void erase_Click(object sender, RoutedEventArgs e)
         {
+            _erase = true;
+            ++_totalCount;
+
             // 마지막으로 입력된 값을 수식에 이어붙인다.
             _equation += _preValue;
 
-            // 마지막에 입력한 것이 연산자라면 _equation 문자열에서 끝의 3개 문자를 지운다.
-            // ex) "9 + 2 * " → (지우기 버튼 클릭) → "9 + 2"
+            // 마지막에 입력한 것이 연산자라면 _equation 문자열에서 끝의 4개 문자를 지운다.
+            // ex) "9 + 2 * 0" → (지우기 버튼 클릭) → "9 + 2"
             // 마지막에 입력한 것이 피연산자라면 끝의 1개 문자를 지우고, 현재 입력값을 0으로 바꾼다.
             // ex) "9 + 2 * 7" → (지우기 버튼 클릭) → "9 + 2 * "
             if (_isCalcMode)
             {
-                _equation = _equation.Remove(_equation.Length - 3, 3);
+                _equation = _equation.Remove(_equation.Length - 4, 4);
 
                 // 연산자를 새로 입력해야 하므로 상태 값을 false로 바꿔 둔다.
                 _isCalcMode = false;
 
-                // 연산자 이전에는 피연산자가 입력되었을 것이므로, 연산 타입을 다시 'n'으로 돌려 놓는다.
-                _calcType = 'n';
+                // 연산자 이전에는 피연산자가 입력되었을 것이므로, 연산 타입을 초기화한다.
+                _calcType = 'c';
             }
             else
             {
@@ -538,15 +546,14 @@ namespace custom_calc
         /// <param name="e"></param>
         private void equal_Click(object sender, RoutedEventArgs e)
         {
-            _erase = true;
+            _isEqual = true;
+            ++_totalCount;
 
             // Clear 버튼을 누른 상태라면 '=' 연산은 동작하지 않는다.
             if (_calcType == 'c')
             {
                 return;
             }
-
-            _isEqual = true;
 
             // 마지막으로 입력된 값이 있으면 수식에 이어붙인다.
             _equation += _preValue + " = ";

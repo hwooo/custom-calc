@@ -71,19 +71,66 @@ namespace custom_calc
         /// <param name="preValue"></param>
         private void Calculation(char calcType, int preValue)
         {
+            int tempTotal = _total;
+
             switch (calcType)
             {
                 case '+':
-                    _total += preValue;
+                    try
+                    {
+                        tempTotal = checked(tempTotal + preValue);
+                    }
+                    catch (OverflowException ove)
+                    {
+                        Console.WriteLine(ove.ToString());
+                        return;
+                    }
+
+                    _total = tempTotal;
                     break;
                 case '-':
-                    _total -= preValue;
+                    try
+                    {
+                        tempTotal = checked(tempTotal - preValue);
+                    }
+                    catch (OverflowException ove)
+                    {
+                        Console.WriteLine(ove.ToString());
+                        return;
+                    }
+
+                    _total = tempTotal;
                     break;
                 case '*':
-                    _total *= preValue;
+                    try
+                    {
+                        tempTotal = checked(tempTotal * preValue);
+                    }
+                    catch (OverflowException ove)
+                    {
+                        Console.WriteLine(ove.ToString());
+                        return;
+                    }
+
+                    _total = preValue;
                     break;
                 case '/':
-                    _total /= preValue;
+                    try
+                    {
+                        tempTotal = checked(tempTotal / preValue);
+                    }
+                    catch (OverflowException ove)
+                    {
+                        Console.WriteLine(ove.ToString());
+                        return;
+                    }
+                    catch (DivideByZeroException dbe)
+                    {
+                        Console.WriteLine(dbe.ToString());
+                        return;
+                    }
+
+                    _total = preValue;
                     break;
             }
         }
@@ -99,6 +146,8 @@ namespace custom_calc
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -117,10 +166,22 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 1;
+            try
+            {
+                // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+                _tempValue = checked(_preValue * Offset + 1);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -129,7 +190,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -139,10 +200,21 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 2;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 2);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -151,7 +223,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -161,10 +233,21 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 3;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 3);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -173,7 +256,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -183,10 +266,21 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 4;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 4);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -195,7 +289,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -205,10 +299,27 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button5_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 5;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 5);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
+            // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+            if (_tempValue >= int.MaxValue || _tempValue <= int.MinValue)
+            {
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -217,7 +328,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -227,10 +338,27 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 6;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 6);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
+            // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+            if (_tempValue >= int.MaxValue || _tempValue <= int.MinValue)
+            {
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -239,7 +367,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -249,7 +377,22 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button7_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 7;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 7);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
+            // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+            if (_tempValue >= int.MaxValue || _tempValue <= int.MinValue)
+            {
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
@@ -261,7 +404,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -271,10 +414,27 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button8_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 8;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 8);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
+            // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+            if (_tempValue >= int.MaxValue || _tempValue <= int.MinValue)
+            {
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -283,7 +443,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         /// <summary>
@@ -293,10 +453,27 @@ namespace custom_calc
         /// <param name="e"></param>
         private void button9_Click(object sender, RoutedEventArgs e)
         {
-            _tempValue = _preValue * Offset + 9;
+            try
+            {
+                _tempValue = checked(_preValue * Offset + 9);
+            }
+            catch (OverflowException ove)
+            {
+                Console.WriteLine(ove.ToString());
+                return;
+            }
+
+            // 오버플로우 여부를 검사해서, 정수의 범위를 초과하면 함수를 종료시킨다.
+            if (_tempValue >= int.MaxValue || _tempValue <= int.MinValue)
+            {
+                return;
+            }
+
             _preValue = _tempValue;
 
             _isCalcMode = false;
+            _erase = false;
+
             ++_totalCount;
 
             if (_isEqual)
@@ -305,7 +482,7 @@ namespace custom_calc
                 _isEqual = false;
             }
 
-            result_label.Content = _tempValue.ToString();
+            result_label.Content = _preValue.ToString();
         }
 
         private void plus_Click(object sender, RoutedEventArgs e)
@@ -515,7 +692,7 @@ namespace custom_calc
 
             // 마지막에 입력한 것이 연산자라면 _equation 문자열에서 끝의 4개 문자를 지운다.
             // ex) "9 + 2 * _" → (지우기 버튼 클릭) → "9 + 2"
-            // 마지막에 입력한 것이 피연산자라면 끝의 1개 문자를 지우고, 현재 입력값을 0으로 바꾼다.
+            // 마지막에 입력한 것이 피연산자라면 숫자에 해당하는 문자들을 모두 지우고, 현재 입력값을 0으로 바꾼다.
             // ex) "9 + 2 * 7" → (지우기 버튼 클릭) → "9 + 2 * "
             if (_isCalcMode)
             {
@@ -529,11 +706,25 @@ namespace custom_calc
             }
             else
             {
-                _equation = _equation.Remove(_equation.Length - 1, 1);
+                try
+                {
+                    // 수식을 완전히 초기화하거나, 마지막 문자가 공백 문자가 될 때까지 피연산자를 삭제한다.
+                    while (_equation[_equation.Length - 1] != ' ')
+                    {
+                        _equation = _equation.Remove(_equation.Length - 1, 1);
+                    }
+                }
+                catch (IndexOutOfRangeException ioe)
+                {
+                    Console.WriteLine(ioe.ToString());
+                }
 
                 // 연산 모드를 다시 활성화한다.
-                _isCalcMode = true;
-
+                if (_equation.Length != 0)
+                {
+                    _isCalcMode = true;
+                }
+                
                 // 피연산자를 처음부터 새로 입력해야 하므로 이전 입력값을 초기화한다.
                 _preValue = 0;
             }

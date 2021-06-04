@@ -112,7 +112,7 @@ namespace custom_calc
                         return;
                     }
 
-                    _total = preValue;
+                    _total = tempTotal;
                     break;
                 case '/':
                     try
@@ -130,7 +130,7 @@ namespace custom_calc
                         return;
                     }
 
-                    _total = preValue;
+                    _total = tempTotal;
                     break;
             }
         }
@@ -485,11 +485,13 @@ namespace custom_calc
             result_label.Content = _preValue.ToString();
         }
 
+        // TODO: 괄호와 연산자 우선순위를 고려한 계산 기능 구현
         private void plus_Click(object sender, RoutedEventArgs e)
         {
-            // 총 연산자 클릭 횟수가 0 이상인데 수식 문자열이 비어 있다면 이전에 '=' 연산을 하고 초기화된 상태이므로,
+            // 총 연산자 클릭 횟수가 0 이상인데 총합이 0이고 수식 문자열이 비어 있다면 이전에 '=' 연산을 하고 초기화된 상태이므로,
             // 피연산자 없이 연산 모드를 실행할 수는 없기 때문에 함수를 종료한다.
-            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
+            // 
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _totalCount == 0 && _equation == ""))
             {
                 return;
             }
@@ -534,7 +536,7 @@ namespace custom_calc
 
         private void minus_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _totalCount == 0 && _equation == ""))
             {
                 return;
             }
@@ -574,7 +576,7 @@ namespace custom_calc
 
         private void multiply_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _totalCount == 0 && _equation == ""))
             {
                 return;
             }
@@ -614,7 +616,7 @@ namespace custom_calc
 
         private void division_Click(object sender, RoutedEventArgs e)
         {
-            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _equation == ""))
+            if (_isCalcMode || _totalCount == 0 || (_allOpCount > 0 && _totalCount == 0 && _equation == ""))
             {
                 return;
             }

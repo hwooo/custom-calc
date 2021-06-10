@@ -485,7 +485,6 @@ namespace custom_calc
             result_label.Content = _preValue.ToString();
         }
 
-        // TODO: 괄호와 연산자 우선순위를 고려한 계산 기능 구현
         private void plus_Click(object sender, RoutedEventArgs e)
         {
             // 총 연산자 클릭 횟수가 0 이상인데 총합이 0이고 수식 문자열이 비어 있다면 이전에 '=' 연산을 하고 초기화된 상태이므로,
